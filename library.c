@@ -91,13 +91,11 @@ int *decToBinary(int number) {
             }
         }
         printBinary(binaryNum);
-
-        int *one = calloc(64, sizeof(int));
+        int one[64] = {0};
         one[0] = 1;
         printf("one:\n");
         printBinary(one);
-        int * twoscomplement = addBinary(binaryNum, one);
-        free(one);
+        int * twoscomplement = addBinary(binaryNum, (int *) &one);
         free(binaryNum);
         binaryNum = twoscomplement;
 
@@ -211,7 +209,13 @@ int binToInt(int *array){
 
 int main(int argc, char *argv[]){
 
-    int num1 = decToInt("-140");
+
+
+//    if((strlen(argv[1]) >  (size_t) 64 )|| (strlen(argv[2]) >  (size_t )64) ){
+//        fprintf(stderr, "ERROR");
+//    }
+
+    int num1 = decToInt("-10");
     int num2 = decToInt("-10");
     int *ptr1 = decToBinary(num1);
     int *ptr2 = decToBinary(num2);
