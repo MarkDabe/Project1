@@ -15,15 +15,15 @@ int printBinary(int x[]){
 
 int *addBinary(int *x,int *y){
 
-
-    printf("x:\n");
-    printBinary(x);
-    printf("y:\n");
-    printBinary(y);
+//
+//    printf("x:\n");
+//    printBinary(x);
+//    printf("y:\n");
+//    printBinary(y);
 
     int i = 0;
     int carry = 0;
-    int *sum = calloc(64, sizeof(int));
+    int *sum = (int *) calloc(64, sizeof(int));
     for(i = 0; i < 64; i++){
         if(x[i]==0 && y[i]==0 && carry==0){
             sum[i] = 0;
@@ -50,8 +50,7 @@ int *addBinary(int *x,int *y){
             carry = 1;
         }
     }
-    printf("sum:\n");
-    printBinary(sum);
+
 
     return sum;
 }
@@ -59,7 +58,7 @@ int *addBinary(int *x,int *y){
 
 int *decToBinary(int number) {
 
-    int * binaryNum = calloc(64, sizeof(int));
+    int * binaryNum = (int *) calloc(64, sizeof(int));
     int i = 0;
     int j = 0;
     int k = 0;
@@ -90,11 +89,9 @@ int *decToBinary(int number) {
                 binaryNum[k] = 0;
             }
         }
-        printBinary(binaryNum);
+//        printBinary(binaryNum);
         int one[64] = {0};
         one[0] = 1;
-        printf("one:\n");
-        printBinary(one);
         int * twoscomplement = addBinary(binaryNum, (int *) &one);
         free(binaryNum);
         binaryNum = twoscomplement;
@@ -220,6 +217,8 @@ int main(int argc, char *argv[]){
     int *ptr1 = decToBinary(num1);
     int *ptr2 = decToBinary(num2);
     int *sum = addBinary(ptr1, ptr2);
+    printf("sum:\n");
+    printBinary(sum);
     int convertedInt = binToInt(sum);
     printf("\n\n");
     printf("converted int: ");
