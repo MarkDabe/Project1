@@ -4,57 +4,58 @@
 #include <string.h>
 #include <ctype.h>
 
-//int printBinary(int x[]){
-//    int i;
-//    for(i=63; i>=0; i--){
-//        printf("%d",x[i]);
-//    }
-//    printf("\n");
-//
-//}
-//
-//
-//int *addBinary(int *x,int *y){
-//
-////
-////    printf("x:\n");
-////    printBinary(x);
-////    printf("y:\n");
-////    printBinary(y);
-//
-//    int i = 0;
-//    int carry = 0;
-//    int *sum = (int *) calloc(64, sizeof(int));
-//    for(i = 0; i < 64; i++){
-//        if(x[i]==0 && y[i]==0 && carry==0){
-//            sum[i] = 0;
-//            carry = 0;
-//        }
-//        else if(x[i]==0 && y[i]==0 && carry==1){
-//            sum[i] = 1;
-//            carry = 0;
-//        }
-//        else if(((x[i]==1 && y[i]==0)||(x[i]==0 && y[i]==1)) && carry==0){
-//            sum[i] = 1;
-//            carry = 0;
-//        }
-//        else if(((x[i]==1 && y[i]==0)||(x[i]==0 && y[i]==1)) && carry==1){
-//            sum[i] = 0;
-//            carry = 1;
-//        }
-//        else if(x[i]==1 && y[i]==1 && carry==0){
-//            sum[i] = 0;
-//            carry = 1;
-//        }
-//        else if(x[i]==1 && y[i]==1 && carry==1){
-//            sum[i] = 1;
-//            carry = 1;
-//        }
-//    }
-//
-//
-//    return sum;
-//}
+int printBinary(long * x){
+    int i;
+    for(i=63; i>=0; i--){
+       if(x[i] == 1){
+           printf("1");
+       }
+       else if(x[i] == 0){
+           printf("0");
+       }
+    }
+    printf("\n");
+
+    return 0;
+
+}
+
+
+long *addBinary(long *x,long *y){
+
+    int i = 0;
+    long carry = 0;
+    long *sum = (long *) calloc(64, sizeof(long));
+    for(i = 0; i < 64; i++){
+        if(x[i]==0 && y[i]==0 && carry==0){
+            sum[i] = 0;
+            carry = 0;
+        }
+        else if(x[i]==0 && y[i]==0 && carry==1){
+            sum[i] = 1;
+            carry = 0;
+        }
+        else if(((x[i]==1 && y[i]==0)||(x[i]==0 && y[i]==1)) && carry==0){
+            sum[i] = 1;
+            carry = 0;
+        }
+        else if(((x[i]==1 && y[i]==0)||(x[i]==0 && y[i]==1)) && carry==1){
+            sum[i] = 0;
+            carry = 1;
+        }
+        else if(x[i]==1 && y[i]==1 && carry==0){
+            sum[i] = 0;
+            carry = 1;
+        }
+        else if(x[i]==1 && y[i]==1 && carry==1){
+            sum[i] = 1;
+            carry = 1;
+        }
+    }
+
+
+    return sum;
+}
 //
 //
 //int *decToBinary(int number) {
@@ -358,11 +359,6 @@ int octascii_long(char * string, long * number){
         i = 1;
         value += 3 - (string[0] - '0');
 
-        printf("value0: %i\n", (string[i] - '0'));
-
-        printf("value0 %ld\n", value);
-
-
     }
     while(string[i] != '\0'){
 
@@ -396,46 +392,178 @@ int octascii_long(char * string, long * number){
 
     *number = value;
 
-
+    return 0;
 
 }
 
+
+int binascii_long(char * string, long * number){
+
+    long value = 0;
+    int is_negative = 0;
+    int i = 0;
+    if(strlen(string) == 0){
+        printf("ERROR");
+        exit(EXIT_FAILURE);
+    }
+    if(string[0] == '1'){
+
+        is_negative = 1;
+        i = 1;
+
+    }
+    while(string[i] != '\0'){
+
+        if(isdigit(string[i])){
+            value = value * 2 ;
+
+            if(is_negative) {
+                value += 1 - (string[i] - '0') ;
+            }
+
+            else {
+                value += string[i] - '0';
+            }
+
+
+
+        } else{
+            printf("ERROR");
+            exit(EXIT_FAILURE);
+        }
+        i++;
+
+    }
+
+    if(is_negative){
+
+        value += 1;
+        value = value * -1;
+    }
+
+    *number = value;
+
+
+    return 0;
+}
+
+
+int long_decascii(long number, char * string){
+
+    long value = number;
+    long x = 0;
+    int is_negative = 0;
+    int i = 0;
+
+
+    if(string == 0 ){
+        printf("ERROR");
+        exit(EXIT_FAILURE);
+    }
+
+
+
+    if(number < 0){
+        is_negative = 1;
+        value = number * -1;
+    }
+
+    do {
+
+        x = value % 10;
+        string[i] = (char ) ('0' +  x);
+        value = value/10;
+        i++;
+    } while (value >0 );
+
+    if (is_negative){
+        string[i] = '-';
+        i++;
+    }
+
+    string[i] = '\0';
+
+    i--;
+
+    for(i; i >= 0; i--){
+        printf("%c", string[i]);
+    }
+
+
+    return 0;
+
+}
+
+
+long * long_binascii(long number, char * string){
+
+
+    long * binaryNum = (long *) calloc(64, sizeof(long));
+    int i = 0;
+    int j = 0;
+    int k = 0;
+    int is_negative = 0;
+    int carry = 0;
+
+    if(number < 0){
+        is_negative = 1;
+        number = number * -1;
+    }
+
+    while (number > 0) {
+
+        binaryNum[i] = number % 2;
+        number = number / 2;
+        i++;
+    }
+
+    if(is_negative == 1){
+
+        for(k = 0; k < 64; k++){
+
+            if(binaryNum[k] == 0){
+                binaryNum[k] = 1;
+            }
+
+            else if(binaryNum[k] == 1){
+                binaryNum[k] = 0;
+            }
+        }
+//        printBinary(binaryNum);
+        long one[64] = {0};
+        one[0] = 1;
+        long * twoscomplement = addBinary(binaryNum, one);
+        free(binaryNum);
+        binaryNum = twoscomplement;
+
+    }
+
+
+    printBinary(binaryNum);
+
+    printf("\n\n");
+
+    return binaryNum;
+
+
+}
 
 int main(int argc, char *argv[]){
 
     long number1 = 0;
     long number2 = 0;
-    octascii_long("377777777401", &number1);
+    long sum = 0 ;
+    binascii_long("111111111111111111111111", &number1);
+    binascii_long("000000000000000000000001", &number2);
 
+    sum = -20;
 
-    printf("%ld\n", number1);
+    char * string = calloc(65, sizeof(char));
+    memset(string, '0', 65 * sizeof(char));
 
-//    hexascii_long("0BB03F45", &number2);
-//
-//
-//    printf("%ld\n", number2);
+    long_binascii(sum, string);
 
-
-
-
-//    if((strlen(argv[1]) >  (size_t) 64 )|| (strlen(argv[2]) >  (size_t )64) ){
-//        fprintf(stderr, "ERROR");
-//    }
-
-//    int num1 = decToInt("0");
-//    int num2 = decToInt("-10");
-//    int *ptr1 = decToBinary(num1);
-//    int *ptr2 = decToBinary(num2);
-//    int *sum = addBinary(ptr1, ptr2);
-//    printf("sum:\n");
-//    printBinary(sum);
-//    int convertedInt = binToInt(sum);
-//    printf("\n\n");
-//    printf("converted int: ");
-//    printf("%i", convertedInt);
-//    free(ptr1);
-//    free(ptr2);
-//    free(sum);
+    free(string);
 
 
     return 0;
