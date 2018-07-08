@@ -1,8 +1,10 @@
-#include "library.h"
+#include "calc.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+
+
 
 int printBinary(const long * array){
     int i;
@@ -63,7 +65,6 @@ int printhex(const long * array){
 
         value =  array[i-3] + (2 * array[i-2]) + (4 * array[i-1]) + (8 * array[i]);
 
-//        printf("value: %ld\n", value);
 
         if( value <= 9  ) {
 
@@ -127,155 +128,7 @@ long *addBinary(long *x,long *y){
 
     return sum;
 }
-//
-//
-//int *decToBinary(int number) {
-//
-//    int * binaryNum = (int *) calloc(64, sizeof(int));
-//    int i = 0;
-//    int j = 0;
-//    int k = 0;
-//    int is_negative = 0;
-//    int carry = 0;
-//
-//    if(number < 0){
-//        is_negative = 1;
-//        number = number * -1;
-//    }
-//
-//    while (number > 0) {
-//
-//        binaryNum[i] = number % 2;
-//        number = number / 2;
-//        i++;
-//    }
-//
-//    if(is_negative == 1){
-//
-//        for(k = 0; k < 64; k++){
-//
-//            if(binaryNum[k] == 0){
-//                binaryNum[k] = 1;
-//            }
-//
-//            else if(binaryNum[k] == 1){
-//                binaryNum[k] = 0;
-//            }
-//        }
-////        printBinary(binaryNum);
-//        int one[64] = {0};
-//        one[0] = 1;
-//        int * twoscomplement = addBinary(binaryNum, one);
-//        free(binaryNum);
-//        binaryNum = twoscomplement;
-//
-//    }
-//
-//
-//
-//
-//    printBinary(binaryNum);
-//
-//    printf("\n\n");
-//
-//    return binaryNum;
-//}
-//
-//
-//int decToInt(char * input){
-//
-//    char array[64] = {0};
-//    memcpy(array,input,64);
-//
-//    int number = 0;
-//    int neg = array[0] == '-';
-//    int i = neg ? 1 : 0;
-//    while ( array[i] >= '0' && array[i] <= '9' )
-//    {
-//        number *= 10;
-//        number += array[i] - '0';
-//        i ++;
-//    }
-//    if ( neg )
-//        number *= -1;
-//
-//    printf( "string %s -> number %d\n\n", array, number);
-//
-//    return  number;
-//}
-//
-//
-//int octToInt(char * input){
-//
-//    char array[64] = {0};
-//    memcpy(array,input,64);
-//    int number = 0;
-//    int neg = array[0] == '-';
-//    int i = neg ? 1 : 0;
-//    while ( array[i] >= '0' && array[i] <= '7' )
-//    {
-//        number *= 8;
-//        number += array[i] - '0';
-//        i ++;
-//    }
-//    if ( neg )
-//        number *= -1;
-//
-//    printf( "string %s -> number %d\n\n", array, number);
-//
-//    return  number;
-//}
-//
-//
-//int hexToInt(char * input){
-//
-//    char array[64] = {0};
-//    memcpy(array,input,64);
-//
-//    int number = 0;
-//    int neg = array[0] == '-';
-//    int i = neg ? 1 : 0;
-//    while ( array[i] >= '0' && array[i] <= 'f' )
-//    {
-//        if(array[i] >= 'A' && array[i] <= 'F'){
-//            array[i] += 32;
-//        }
-//
-//        if( array[i] >= 'a' && array[i] <= 'f') {
-//            number *= 16;
-//            number += array[i] - 87;
-//            i++;
-//        }
-//
-//        else if(array[i] >= '0' && array[i] <= '9'){
-//            number *= 16;
-//            number += array[i] - '0';
-//            i++;
-//
-//        }
-//    }
-//    if ( neg )
-//        number *= -1;
-//
-//    printf( "string %s -> number %d\n\n", array, number);
-//
-//    return  number;
-//}
-//
-//
-//int binToInt(int *array){
-//
-//    int number = 0;
-//    int i = 63;
-//    for(i; i >= 0; i--){
-//
-//        if (array[i] == 1) number = number * 2 + 1;
-//        else if (array[i] == 0) number *= 2;
-//    }
-//
-//
-//    return number;
-//}
+
 
 int decascii_long(char * string, long * number){
     long value = 0;
@@ -556,20 +409,22 @@ int long_decascii(long number, char * string){
 
     i--;
 
+    printf("output: ");
+
     for(i; i >= 0; i--){
         printf("%c", string[i]);
     }
 
+
+    printf("\n\n");
 
     return 0;
 
 }
 
 
-long * long_binascii(long number, char * string){
+long * long_binascii(long number, char * string , long * binaryNum){
 
-
-    long * binaryNum = (long *) calloc(64, sizeof(long));
     int i = 0;
     int j = 0;
     int k = 0;
@@ -623,24 +478,120 @@ long * long_binascii(long number, char * string){
 
 }
 
+
+void convertInput(char * string, long * number){
+    char type = string[0];
+    char * input = (char *) calloc(strlen(string), sizeof(char));
+    memset(input, '0' ,strlen(string) * sizeof(char));
+    memcpy(input, string + 1, strlen(string) * sizeof(char));
+
+    if(type == 'd'){
+
+        decascii_long(input, number);
+
+    }
+
+    else if(type == 'b'){
+        binascii_long(input, number);
+    }
+
+    else if(type == 'h'){
+        hexascii_long(input, number);
+    }
+
+    else if( type == 'o' ){
+        octascii_long(input, number);
+    }
+
+    else{
+
+        free(input);
+        printf("ERROR");
+        exit(EXIT_FAILURE);
+
+    }
+
+    free(input);
+
+}
+
+
+
+void printOuput(long sum, const char * format){
+
+    char diplayFormat = format[0];
+    char * pcharArray = NULL;
+
+    if(diplayFormat == 'd'){
+
+        pcharArray = (char *)  calloc(65, sizeof(char));
+        long_decascii(sum, pcharArray);
+        free(pcharArray);
+    }
+//
+//    else if(type == 'b'){
+//        binascii_long(input, number);
+//    }
+//
+//    else if(type == 'h'){
+//        hexascii_long(input, number);
+//    }
+//
+//    else if( type == 'o' ){
+//        octascii_long(input, number);
+//    }
+//
+//    else{
+//
+//        free(input);
+//        printf("ERROR");
+//        exit(EXIT_FAILURE);
+//
+//    }
+//
+//    free(input);
+
+
+
+
+
+
+}
+
 int main(int argc, char *argv[]){
 
+    char * operation = NULL;
     long number1 = 0;
     long number2 = 0;
-    long sum = 0 ;
-    binascii_long("111111111111111111111110", &number1);
-    binascii_long("000000000000000000000001", &number2);
-
-    sum = 200;
-
-    char * string = calloc(65, sizeof(char));
-    memset(string, '0', 65 * sizeof(char));
-
-    long_binascii(sum, string);
-    long_decascii(sum, string);
+    long sum = 0;
 
 
-    free(string);
+    if(argv[1] && argv[2] && argv[3] && argv[4]) {
+
+        operation = argv[1];
+
+
+        convertInput(argv[2], &number1);
+        convertInput(argv[3], &number2);
+
+        if(strcmp(operation, "-") == 0){
+            number2 = number2 * -1;
+        }
+
+        sum = number1 + number2;
+
+
+        printOuput(sum, argv[4]);
+
+    }
+
+
+    else{
+
+        printf("ERROR");
+        exit(EXIT_FAILURE);
+
+    }
 
 
     return 0;
