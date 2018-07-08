@@ -4,17 +4,88 @@
 #include <string.h>
 #include <ctype.h>
 
-int printBinary(long * x){
+int printBinary(const long * array){
     int i;
     for(i=63; i>=0; i--){
-       if(x[i] == 1){
+       if(array[i] == 1){
            printf("1");
        }
-       else if(x[i] == 0){
+       else if(array[i] == 0){
            printf("0");
        }
     }
     printf("\n");
+
+    return 0;
+
+}
+
+
+int printoctal(const long * array){
+
+    long value = 0;
+    int i = 62;
+    char c = NULL;
+
+
+    value =  array[63];
+
+    c = (char) (value + '0');
+
+    printf("%c", c);
+
+    while(i>0){
+
+        value =  array[i-2] + (2 * array[i-1]) + (4 * array[i]);
+
+        c = (char) (value + '0');
+
+        printf("%c", c);
+
+        i = i - 3;
+    }
+
+    printf("\n");
+
+
+
+    return 0;
+
+}
+
+int printhex(const long * array){
+
+    long value = 0;
+    int i = 63;
+    char c = '0';
+
+    while(i>0){
+
+        value =  array[i-3] + (2 * array[i-2]) + (4 * array[i-1]) + (8 * array[i]);
+
+//        printf("value: %ld\n", value);
+
+        if( value <= 9  ) {
+
+            c = (char) (value + '0');
+
+        }
+
+
+        else{
+
+            c = (char) (value%10 + 'A');
+
+        }
+
+        printf("%c", c);
+
+        i = i - 4;
+    }
+
+    printf("\n");
+
+
 
     return 0;
 
@@ -541,6 +612,10 @@ long * long_binascii(long number, char * string){
 
     printBinary(binaryNum);
 
+    printoctal(binaryNum);
+
+    printhex(binaryNum);
+
     printf("\n\n");
 
     return binaryNum;
@@ -553,15 +628,17 @@ int main(int argc, char *argv[]){
     long number1 = 0;
     long number2 = 0;
     long sum = 0 ;
-    binascii_long("111111111111111111111111", &number1);
+    binascii_long("111111111111111111111110", &number1);
     binascii_long("000000000000000000000001", &number2);
 
-    sum = -20;
+    sum = 200;
 
     char * string = calloc(65, sizeof(char));
     memset(string, '0', 65 * sizeof(char));
 
     long_binascii(sum, string);
+    long_decascii(sum, string);
+
 
     free(string);
 
