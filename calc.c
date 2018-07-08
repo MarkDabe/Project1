@@ -134,7 +134,7 @@ int decascii_long(char * string, long * number){
     int is_negative = 0;
     int i = 0;
     if(strlen(string) == 0){
-        printf("ERROR");
+        printf("ERROR\n");
         exit(EXIT_FAILURE);
     }
     if(string[0] == '-'){
@@ -149,7 +149,7 @@ int decascii_long(char * string, long * number){
 
         }
         else{
-            printf("ERROR");
+            printf("ERROR\n");
             exit(EXIT_FAILURE);
         }
         i++;
@@ -171,7 +171,7 @@ int hexascii_long(char * string, long * number) {
     int is_negative = 0;
     int i = 0;
     if(strlen(string) == 0){
-        printf("ERROR");
+        printf("ERROR\n");
         exit(EXIT_FAILURE);
     }
     if(string[0] >= '8'){
@@ -244,7 +244,7 @@ int hexascii_long(char * string, long * number) {
 
 
         } else{
-            printf("ERROR");
+            printf("ERROR\n");
             exit(EXIT_FAILURE);
         }
         i++;
@@ -273,7 +273,7 @@ int octascii_long(char * string, long * number){
     int is_negative = 0;
     int i = 0;
     if(strlen(string) == 0){
-        printf("ERROR");
+        printf("ERROR\n");
         exit(EXIT_FAILURE);
     }
     if(string[0] >= '2'){
@@ -299,7 +299,7 @@ int octascii_long(char * string, long * number){
 
 
         } else{
-            printf("ERROR");
+            printf("ERROR\n");
             exit(EXIT_FAILURE);
         }
         i++;
@@ -326,7 +326,7 @@ int binascii_long(char * string, long * number){
     int is_negative = 0;
     int i = 0;
     if(strlen(string) == 0){
-        printf("ERROR");
+        printf("ERROR\n");
         exit(EXIT_FAILURE);
     }
     if(string[0] == '1'){
@@ -351,7 +351,7 @@ int binascii_long(char * string, long * number){
 
 
         } else{
-            printf("ERROR");
+            printf("ERROR\n");
             exit(EXIT_FAILURE);
         }
         i++;
@@ -380,7 +380,7 @@ int long_decascii(long number, char * string){
 
 
     if(string == 0 ){
-        printf("ERROR");
+        printf("ERROR\n");
         exit(EXIT_FAILURE);
     }
 
@@ -493,7 +493,7 @@ void convertInput(char * string, long * number){
     else{
 
         free(input);
-        printf("ERROR");
+        printf("ERROR\n");
         exit(EXIT_FAILURE);
 
     }
@@ -542,7 +542,7 @@ void printOuput(long sum, const char * format){
 
     else{
 
-        printf("ERROR");
+        printf("ERROR\n");
         exit(EXIT_FAILURE);
 
     }
@@ -580,7 +580,7 @@ int main(int argc, char *argv[]){
 
     else{
 
-        printf("ERROR");
+        printf("ERROR\n");
         exit(EXIT_FAILURE);
 
     }
