@@ -1,4 +1,3 @@
-#include "calc.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -409,27 +408,23 @@ int long_decascii(long number, char * string){
 
     i--;
 
-    printf("output: ");
-
     for(i; i >= 0; i--){
         printf("%c", string[i]);
     }
 
 
-    printf("\n\n");
+    printf("\n");
 
     return 0;
 
 }
 
 
-long * long_binascii(long number, char * string , long * binaryNum){
+int long_binascii(long number,  long * binaryNum){
 
     int i = 0;
     int j = 0;
-    int k = 0;
     int is_negative = 0;
-    int carry = 0;
 
     if(number < 0){
         is_negative = 1;
@@ -445,17 +440,17 @@ long * long_binascii(long number, char * string , long * binaryNum){
 
     if(is_negative == 1){
 
-        for(k = 0; k < 64; k++){
+        for(j = 0; j < 64; j++){
 
-            if(binaryNum[k] == 0){
-                binaryNum[k] = 1;
+            if(binaryNum[j] == 0){
+                binaryNum[j] = 1;
             }
 
-            else if(binaryNum[k] == 1){
-                binaryNum[k] = 0;
+            else if(binaryNum[j] == 1){
+                binaryNum[j] = 0;
             }
         }
-//        printBinary(binaryNum);
+
         long one[64] = {0};
         one[0] = 1;
         long * twoscomplement = addBinary(binaryNum, one);
@@ -465,15 +460,7 @@ long * long_binascii(long number, char * string , long * binaryNum){
     }
 
 
-    printBinary(binaryNum);
-
-    printoctal(binaryNum);
-
-    printhex(binaryNum);
-
-    printf("\n\n");
-
-    return binaryNum;
+    return 0;
 
 
 }
@@ -521,6 +508,9 @@ void printOuput(long sum, const char * format){
 
     char diplayFormat = format[0];
     char * pcharArray = NULL;
+    long * plongArray = NULL;
+
+    printf("output: ");
 
     if(diplayFormat == 'd'){
 
@@ -528,31 +518,34 @@ void printOuput(long sum, const char * format){
         long_decascii(sum, pcharArray);
         free(pcharArray);
     }
-//
-//    else if(type == 'b'){
-//        binascii_long(input, number);
-//    }
-//
-//    else if(type == 'h'){
-//        hexascii_long(input, number);
-//    }
-//
-//    else if( type == 'o' ){
-//        octascii_long(input, number);
-//    }
-//
-//    else{
-//
-//        free(input);
-//        printf("ERROR");
-//        exit(EXIT_FAILURE);
-//
-//    }
-//
-//    free(input);
 
+    else if(diplayFormat == 'b'){
+        plongArray = (long *) calloc(64, sizeof(long));
+        long_binascii(sum, plongArray);
+        printBinary(plongArray);
+        free(plongArray);
+    }
 
+    else if(diplayFormat == 'h'){
+        plongArray = (long *) calloc(64, sizeof(long));
+        long_binascii(sum, plongArray);
+        printhex(plongArray);
+        free(plongArray);
+    }
 
+    else if( diplayFormat == 'o' ){
+        plongArray = (long *) calloc(64, sizeof(long));
+        long_binascii(sum, plongArray);
+        printoctal(plongArray);
+        free(plongArray);
+    }
+
+    else{
+
+        printf("ERROR");
+        exit(EXIT_FAILURE);
+
+    }
 
 
 
@@ -579,7 +572,6 @@ int main(int argc, char *argv[]){
         }
 
         sum = number1 + number2;
-
 
         printOuput(sum, argv[4]);
 
